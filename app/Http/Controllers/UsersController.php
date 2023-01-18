@@ -22,18 +22,17 @@ class UsersController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+    */
     public function authenticate(Request $request)
     {
         $user_data = $request->validate([
-            'email' => 'required',
+            'name' => 'required',
             'password' => 'required'
         ]);
         
         if(auth()->attempt($user_data)) {
             $request->session()->regenerate();
-
-            return redirect('/')->with('message', 'You are now logged in');
+            return redirect('/');
         }
     }
 
@@ -44,7 +43,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('pages.account.register');
+        return view('pages.users.register');
     }
 
     /**

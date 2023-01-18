@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,15 +20,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function() {
         Route::get('/', [StoriesController::class, 'index']);
 
         Route::get('/page/{slug}', [StoriesController::class, 'show']);
-        Route::post('/createPost', [StoriesController::class, 'createPost'])->name('createPost');
+        Route::post('/createPost', [StoriesController::class, 'store'])->name('createPost');
         
         Route::get('/journal/{slug}', [UsersController::class, 'show']);
 
-        Route::get('/login', [UsersController::class, 'login']);
-        Route::post('/users/authenticate', [UsersController::class, 'authenticate']);
+        Route::get('/login', [UsersController::class, 'index']);
+        Route::post('/users/authenticate', [UsersController::class, 'authenticate'])->name('authenticate');
 
-        Route::get('/register', [UsersController::class, 'register']);
-        Route::post('/users/create', [UsersController::class, 'createUser'])->name('createUser');
+        Route::get('/register', [UsersController::class, 'create']);
+        Route::post('/users/create', [UsersController::class, 'store'])->name('store');
     });
 
     Route::group(['middleware' => ['auth']], function() {

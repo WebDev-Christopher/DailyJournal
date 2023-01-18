@@ -27,6 +27,7 @@ class StoriesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id' => 'required',
             'title' => 'required',
             'body' => 'required'
         ]);
@@ -48,36 +49,46 @@ class StoriesController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Stories  $stories
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Stories $stories)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * edit story
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Stories  $stories
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Stories $stories)
+    public function edit(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required',
+            'title' => 'required',
+            'body' => 'required'
+        ]);
+
+        $id = $request["id"];
+        $title = $request["title"];
+        $body = $request["body"];
+
+        Stories::where('id', $id)->update([
+            'title'=>$title,
+            'body'=>$body
+        ]);
+
+        return redirect("/");
     }
 
     /**
-     * Remove the specified resource from storage.
+     * delete story
      *
-     * @param  \App\Models\Stories  $stories
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Stories $stories)
+    public function destroy(Request $request)
     {
-        //
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        $id = $request["id"];
+
+        Stories::where('id', $id)->delete();
+        return redirect("/");
     }
 }
